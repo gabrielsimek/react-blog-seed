@@ -3,14 +3,14 @@ import { generateBlogPost } from './generateData.js';
 
 const getAll = async () => {
   const response = await supabase
-    .from('blogs.duplicate')
+    .from('blogs')
     .select('*');
      
   return checkError(response);
 };
 
 const insertBlog = async ({ title, subtitle, text, image, authorId }) => {
-  const response = await supabase.from('blogs_duplicate')
+  const response = await supabase.from('blogs')
     .insert([{
       title,
       subtitle,
@@ -22,7 +22,7 @@ const insertBlog = async ({ title, subtitle, text, image, authorId }) => {
 };
 
 const updateBlog = async () => {
-  const response = await supabase.from('blogs.duplicate')
+  const response = await supabase.from('blogs')
     .update({ text: 'testing this again' })
     .eq('id', '2');
   return checkError(response);

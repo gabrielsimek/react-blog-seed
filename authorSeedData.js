@@ -3,19 +3,19 @@ import faker from 'faker';
 
 const getAll = async () => {
   const response = await supabase
-    .from('authors_duplicate')
+    .from('authors')
     .select('*');
   return checkError(response);
 }; 
 
 const insertAuthor = async (name) => {
-  const response = await supabase.from('authors_duplicate')
+  const response = await supabase.from('authors')
     .insert([{ name }]);
   return checkError(response);
 };
 
 const deleteAuthor = async (author) => {
-  const response = await supabase.from('authors_duplicate')
+  const response = await supabase.from('authors')
     .delete()
     .eq('id', author);
   return checkError(response);
