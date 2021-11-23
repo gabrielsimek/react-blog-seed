@@ -28,18 +28,18 @@ const updateBlog = async () => {
   return checkError(response);
 };
 
-const updateBlogs = async (numOfPosts) => {
+const updateBlogs = async (numOfBlogs) => {
   const response = await Promise.all(
-    [...Array(numOfPosts)].map((_, i) => {
+    [...Array(numOfBlogs)].map((_, i) => {
       return updateBlog(i + 1);
     })
   );
   return response;
 };
 
-const seedBlogs = async (numOfPosts, numOfAuthors) => {
+const seedBlogs = async (numOfBlogs, numOfAuthors) => {
   const response = await Promise.all(
-    [...Array(numOfPosts)].map(async () => {
+    [...Array(numOfBlogs)].map(async () => {
       const blogPost =  generateBlogPost(Math.ceil(Math.random() * numOfAuthors));
       return await insertBlog(blogPost);
     })
