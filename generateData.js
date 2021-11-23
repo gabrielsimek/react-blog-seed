@@ -2,7 +2,6 @@ import faker from 'faker';
 import images from './imageData.js';
 import { capitalizePhrase, getRandomImage } from './utils.js';
 
-
 export const generateBlogPost = (authorId) => {
   return {
     title: capitalizePhrase(faker.company.bs()),
@@ -12,6 +11,3 @@ export const generateBlogPost = (authorId) => {
     authorId
   };
 };
-
-
-

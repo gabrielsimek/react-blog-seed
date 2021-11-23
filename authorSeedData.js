@@ -14,19 +14,6 @@ const insertAuthor = async (name) => {
   return checkError(response);
 };
 
-const seedAuthors = async (numOfAuthors) => {
-  const response = await Promise.all(
-    [...Array(numOfAuthors)].map(() => insertAuthor(faker.fake('{{name.firstName}} {{name.lastName}}')))
-  );
-  return response;
-};
-
-
-// insertAuthor('Terrence Tupperware')
-//   .then(() => getAll())
-//   .then(res => console.log(res))
-//   .catch(err => console.log(err));
-
 const deleteAuthor = async (author) => {
   const response = await supabase.from('authors_duplicate')
     .delete()
@@ -41,8 +28,17 @@ const deleteAuthors = async (numOfRows, startIndex) => {
   return response;
 };
 
+const seedAuthors = async (numOfAuthors) => {
+  const response = await Promise.all(
+    [...Array(numOfAuthors)].map(() => insertAuthor(faker.fake('{{name.firstName}} {{name.lastName}}')))
+  );
+  return response;
+};
+
 // deleteAuthors()
 //   .then(res => console.log(res))
 //   .catch(err => console.log(err));
   
 // seedAuthors(5);
+
+export { deleteAuthor, deleteAuthors, getAll, insertAuthor, seedAuthors };

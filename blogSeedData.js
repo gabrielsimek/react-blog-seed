@@ -1,5 +1,6 @@
 import  { supabase, checkError } from './client.js';
 import { generateBlogPost } from './generateData.js';
+
 const getAll = async () => {
   const response = await supabase
     .from('blogs.duplicate')
@@ -20,13 +21,20 @@ const insertBlog = async ({ title, subtitle, text, image, authorId }) => {
   return checkError(response);
 };
 
-//insertBlog().then(res => console.log('INSERT', res)).catch(err => console.log(err));
-
 const updateBlog = async () => {
   const response = await supabase.from('blogs.duplicate')
     .update({ text: 'testing this again' })
     .eq('id', '2');
   return checkError(response);
+};
+
+const updateBlogs = async (numOfPosts) => {
+  const response = await Promise.all(
+    [...Array(numOfPosts)].map((_, i) => {
+      return updateBlog(i + 1);
+    })
+  );
+  return response;
 };
 
 const seedBlogs = async (numOfPosts, numOfAuthors) => {
@@ -40,17 +48,14 @@ const seedBlogs = async (numOfPosts, numOfAuthors) => {
   return response;
 };
 
+// updateBlogs(21);
+
 // seedBlogs(1, 5)
 //   .then(res => console.log(res))
-//   .catch(err => console.log(err));
-// updateBlog()
-//   .then(res => console.log('UPDATE', res))
 //   .catch(err => console.log(err));
 
 // getAll()
 //   .then(data => console.log('GETALL', data))
 //   .catch(err => console.log(err));
 
-
-
-
+export { getAll, insertBlog, updateBlog, updateBlogs, seedBlogs };
