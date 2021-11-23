@@ -41,4 +41,8 @@ const seedAuthors = async (numOfAuthors) => {
   
 // seedAuthors(5);
 
+// getAll()
+//   .then(data => console.log('GETALL', data))
+//   .catch(err => console.log(err));
+
 export { deleteAuthor, deleteAuthors, getAll, insertAuthor, seedAuthors };
