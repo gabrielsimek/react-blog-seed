@@ -1,6 +1,5 @@
 import  { supabase, checkError } from './client.js';
-import faker from 'faker';
-
+import { generateBlogPost } from './generateData.js';
 const getAll = async () => {
   const response = await supabase
     .from('blogs.duplicate')
@@ -9,13 +8,14 @@ const getAll = async () => {
   return checkError(response);
 };
 
-const insertBlog = async () => {
-  const response = await supabase.from('blogs.duplicate')
+const insertBlog = async ({ title, subtitle, text, image, authorId }) => {
+  const response = await supabase.from('blogs_duplicate')
     .insert([{
-      title: 'Test Blog Title',
-      subtitle: 'blog subtitle',
-      text: 'alkjsdfjkl;asdfjk;lasjkl;dfjklasdfkjl;asjdk;fjk;',
-      image: 'https://placekitten.com/200/300'
+      title,
+      subtitle,
+      text,
+      image,
+      author_id: authorId
     }]);
   return checkError(response);
 };
@@ -29,6 +29,20 @@ const updateBlog = async () => {
   return checkError(response);
 };
 
+const seedBlogs = async (numOfPosts, numOfAuthors) => {
+  const response = await Promise.all(
+    [...Array(numOfPosts)].map(async () => {
+      const blogPost =  generateBlogPost(Math.ceil(Math.random() * numOfAuthors));
+      return await insertBlog(blogPost);
+    })
+  );
+
+  return response;
+};
+
+// seedBlogs(1, 5)
+//   .then(res => console.log(res))
+//   .catch(err => console.log(err));
 // updateBlog()
 //   .then(res => console.log('UPDATE', res))
 //   .catch(err => console.log(err));
@@ -38,16 +52,5 @@ const updateBlog = async () => {
 //   .catch(err => console.log(err));
 
 
-const capitalizeTitle = (title) => title.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ').split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join('-');
 
-// Title
-console.log(`\x1b[35m%s\x1b[0m`,'title: ', capitalizeTitle(faker.company.bs()));
 
-// Subtitle
-console.log(`\x1b[35m%s\x1b[0m`,'subtitle', faker.hacker.phrase());
-
-// Text
-// console.log(`\x1b[35m%s\x1b[0m`,'text', faker.lorem.paragraphs(Math.ceil(Math.random() * 20)));
-
-// Image
-console.log(`\x1b[35m%s\x1b[0m`,'image: ', faker.image.city(600, 300, true));
